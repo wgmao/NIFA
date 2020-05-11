@@ -1,8 +1,20 @@
 # NIFA
-~~The main function is `ICAp()` encoded in the `ICAp.R`. This repository is currently under construction with the following two goals.~~
-- Include a toy example in the vignette
 
-The main function is `NIFA()`.
+R library dependencies
+```
+MASS
+mclust
+RcppArmadillo
+```
+
+To install the R package
+```
+library(devtools)
+install_github("wgmao/NIFA")
+```
+
+The main function is `NIFA()` and there is a simulated example under the directory `inst/doc/vignette.R`.
+
 
 # Matching Table
 ![Matching Table](https://github.com/wgmao/NIFA/blob/master/match.png)
