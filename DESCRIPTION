@@ -8,4 +8,6 @@ Maintainer: <mchikina@gmail.com>
 Description: Non-negative Independent Factor Analysis for single cell RNA-seq
 License: GPL (>=2)
 VignetteBuilder: knitr
-Depends: mclust, MASS
+Depends: mclust, MASS, Rcpp, RcppArmadillo
+Imports: Rcpp
+LinkingTo: Rcpp, RcppArmadillo
