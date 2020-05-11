@@ -1,6 +1,8 @@
+useDynLib(NIFA, .registration=TRUE)
+importFrom(Rcpp, evalCpp)
+exportPattern("^[[:alpha:]]+")
+
 export(NIFA)
 export(simulateData)
 export(one_hot_encode)
 export(tscale)
-import(Rcpp)
-useDynLib(NIFA)
