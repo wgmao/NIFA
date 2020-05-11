@@ -1,0 +1,11 @@
+Package: NIFA
+Type: Package
+Title: Non-negative Independent Factor Analysis for single cell RNA-seq
+Version: 0.99.0
+Date: 2020-05-10
+Author: Maria Chikina, Weiguang Mao
+Maintainer: <mchikina@gmail.com>
+Description: Non-negative Independent Factor Analysis for single cell RNA-seq
+License: GPL (>=2)
+VignetteBuilder: knitr
+Depends: mclust, MASS
