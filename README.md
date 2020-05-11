@@ -4,6 +4,7 @@ R library dependencies
 ```
 MASS
 mclust
+Rcpp
 RcppArmadillo
 ```
 
