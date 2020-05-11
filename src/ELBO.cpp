@@ -4,8 +4,8 @@ using namespace Rcpp;
 using namespace arma;
 
 // [[Rcpp::export]]
-double lower_bound_2(cube epsilon_expect, mat sigma_log_S_expect, mat sigma_expect,cube S_2_expect, mat S_expect, mat mu_S_expect, 
-                     mat mu_S_2_expect){
+double lower_bound_2(arma::cube epsilon_expect, arma::mat sigma_log_S_expect, arma::mat sigma_expect,arma::cube S_2_expect, arma::mat S_expect, arma::mat mu_S_expect, 
+                     arma::mat mu_S_2_expect){
   double pi = 3.141592653589793238462643383280;
   double res = 0;
   int K = epsilon_expect.n_rows;
@@ -25,7 +25,7 @@ double lower_bound_2(cube epsilon_expect, mat sigma_log_S_expect, mat sigma_expe
 
 
 // [[Rcpp::export]]
-double lower_bound_3(mat lambda_A_0, cube var_A_expect, mat eta_A_0){
+double lower_bound_3(arma::mat lambda_A_0, arma::cube var_A_expect, arma::mat eta_A_0){
   int P = var_A_expect.n_slices;
   int K = var_A_expect.n_rows;
   double res = P/2*accu(log(lambda_A_0));
@@ -44,7 +44,7 @@ double lower_bound_3(mat lambda_A_0, cube var_A_expect, mat eta_A_0){
 
 
 // [[Rcpp::export]]
-double lower_bound_9(mat lambda_A, cube var_A_expect, mat eta_A){
+double lower_bound_9(arma::mat lambda_A, arma::cube var_A_expect, arma::mat eta_A){
   int P = var_A_expect.n_slices;
   int K = var_A_expect.n_rows;
   double res = P/2*accu(log(lambda_A));

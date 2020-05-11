@@ -4,16 +4,16 @@ using namespace Rcpp;
 using namespace arma;
 
 // [[Rcpp::export]]
-mat eta_A_update_fast(NumericVector dim_eta_A, mat lambda_A_0, mat eta_A_0, 
-                         mat lambda_A, double beta_expect, mat S_expect, 
-                         mat mean_A_expect, mat X){
+arma::mat eta_A_update_fast(NumericVector dim_eta_A, arma::mat lambda_A_0, arma::mat eta_A_0, 
+                         arma::mat lambda_A, double beta_expect, arma::mat S_expect, 
+                         arma::mat mean_A_expect, arma::mat X){
   
-  mat res(dim_eta_A[0], dim_eta_A[1],fill::zeros);
-  mat out_prod(1,S_expect.n_cols, fill::zeros);
+  arma::mat res(dim_eta_A[0], dim_eta_A[1],fill::zeros);
+  arma::mat out_prod(1,S_expect.n_cols, fill::zeros);
   int P = dim_eta_A[0];
   int K = dim_eta_A[1];
   int N = S_expect.n_cols;
-  mat prod(P,N,fill::zeros);
+  arma::mat prod(P,N,fill::zeros);
   double num = 0;
   double tmp = 0;
   
@@ -37,24 +37,24 @@ mat eta_A_update_fast(NumericVector dim_eta_A, mat lambda_A_0, mat eta_A_0,
 
 
 // [[Rcpp::export]]
-mat eta_A_update_cycle_fast(NumericVector dim_eta_A, mat lambda_A_0, mat eta_A_0, 
-                      mat lambda_A, double beta_expect, mat S_expect, 
-                      mat mean_A_expect, mat X){
+arma::mat eta_A_update_cycle_fast(NumericVector dim_eta_A, arma::mat lambda_A_0, arma::mat eta_A_0, 
+                      arma::mat lambda_A, double beta_expect, arma::mat S_expect, 
+                      arma::mat mean_A_expect, arma::mat X){
   
-  mat res(dim_eta_A[0], dim_eta_A[1],fill::zeros);
-  mat out_prod(1,S_expect.n_cols, fill::zeros);
+  arma::mat res(dim_eta_A[0], dim_eta_A[1],fill::zeros);
+  arma::mat out_prod(1,S_expect.n_cols, fill::zeros);
   int P = dim_eta_A[0];
   int K = dim_eta_A[1];
   int N = S_expect.n_cols;
-  mat prod(P,N,fill::zeros);
+  arma::mat prod(P,N,fill::zeros);
   double num = 0;
   double tmp = 0;
   double mu_A_cycle = 0;
   double Z = 0;
   double temp = 0;
   
-  mat mean_A_expect_cycle = mean_A_expect;
-  mat sigma = sqrt(1/lambda_A);
+  arma::mat mean_A_expect_cycle = mean_A_expect;
+  arma::mat sigma = sqrt(1/lambda_A);
     
   prod = mean_A_expect.t()*S_expect;
   
@@ -91,13 +91,13 @@ mat eta_A_update_cycle_fast(NumericVector dim_eta_A, mat lambda_A_0, mat eta_A_0
 
 
 // [[Rcpp::export]]
-double b_noise_update_fast(double b_noise, mat X, mat mean_A_expect, cube var_A_expect, cube S_2_expect, mat S_expect){
+double b_noise_update_fast(double b_noise, arma::mat X, arma::mat mean_A_expect, arma::cube var_A_expect, arma::cube S_2_expect, arma::mat S_expect){
   double res = 0;
   int P = X.n_rows;
   int N = X.n_cols;
-  mat mean_A_expect_t(mean_A_expect.n_cols, mean_A_expect.n_rows,fill::zeros);
-  //mat S_expect_t(S_expect.n_cols, S_expect.n_rows, fill::zeros);
-  mat tmp(1,1,fill::zeros);
+  arma::mat mean_A_expect_t(mean_A_expect.n_cols, mean_A_expect.n_rows,fill::zeros);
+  //arma::mat S_expect_t(S_expect.n_cols, S_expect.n_rows, fill::zeros);
+  arma::mat tmp(1,1,fill::zeros);
     
   mean_A_expect_t = mean_A_expect.t();
   //S_expect_t = S_expect.t();
@@ -114,15 +114,15 @@ double b_noise_update_fast(double b_noise, mat X, mat mean_A_expect, cube var_A_
 
 
 // [[Rcpp::export]]
-mat mu_S_update_fast(NumericVector dim_mu_S, cube sigma_S, mat X, mat mu_S_expect, cube epsilon_expect,
-                     mat sigma_expect, double beta_expect, mat mean_A_expect){
-  mat res(dim_mu_S[0], dim_mu_S[1], fill::zeros);
+arma::mat mu_S_update_fast(NumericVector dim_mu_S, arma::cube sigma_S, arma::mat X, arma::mat mu_S_expect, arma::cube epsilon_expect,
+                     arma::mat sigma_expect, double beta_expect, arma::mat mean_A_expect){
+  arma::mat res(dim_mu_S[0], dim_mu_S[1], fill::zeros);
   int K = mu_S_expect.n_rows;
-  mat left(K,1,fill::zeros);
-  mat right(K,1,fill::zeros);
-  mat temp(sigma_expect.n_rows, sigma_expect.n_cols, fill::zeros);
-  mat temp_t(sigma_expect.n_cols, sigma_expect.n_rows, fill::zeros);
-  mat epsilon_expect_n(epsilon_expect.n_rows, epsilon_expect.n_cols, fill::zeros);
+  arma::mat left(K,1,fill::zeros);
+  arma::mat right(K,1,fill::zeros);
+  arma::mat temp(sigma_expect.n_rows, sigma_expect.n_cols, fill::zeros);
+  arma::mat temp_t(sigma_expect.n_cols, sigma_expect.n_rows, fill::zeros);
+  arma::mat epsilon_expect_n(epsilon_expect.n_rows, epsilon_expect.n_cols, fill::zeros);
     
   temp = sigma_expect%mu_S_expect;
   temp_t = temp.t();
@@ -142,14 +142,14 @@ mat mu_S_update_fast(NumericVector dim_mu_S, cube sigma_S, mat X, mat mu_S_expec
 
 
 // [[Rcpp::export]]
-cube lambda_S_update_fast(NumericVector dim_lambda_S, mat sigma_log_S_expect, mat pi_S, mat sigma_expect
-                            ,mat S_expect, cube S_2_expect, mat mu_S_expect, mat mu_S_2_expect){
+arma::cube lambda_S_update_fast(NumericVector dim_lambda_S, arma::mat sigma_log_S_expect, arma::mat pi_S, arma::mat sigma_expect
+                            ,arma::mat S_expect, arma::cube S_2_expect, arma::mat mu_S_expect, arma::mat mu_S_2_expect){
   //https://stackoverflow.com/questions/14947431/how-to-use-pi-in-rcppeigen
   double pi = 3.141592653589793238462643383280;
   double inf = 9999999999999999;
   double constant = 0;//-0.5*log(2*pi);
-  cube res(dim_lambda_S[0], dim_lambda_S[1], dim_lambda_S[2], fill::zeros);
-  cube res_tmp = res;
+  arma::cube res(dim_lambda_S[0], dim_lambda_S[1], dim_lambda_S[2], fill::zeros);
+  arma::cube res_tmp = res;
   
   for (int i = 0; i < dim_lambda_S[0]; ++i){
     for (int m = 0; m < dim_lambda_S[1]; ++m){
