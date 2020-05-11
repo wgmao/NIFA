@@ -1,3 +1,4 @@
 export(NIFA)
 export(simulateData)
 export(one_hot_encode)
+export(tscale)
