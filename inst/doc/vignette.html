@@ -10,7 +10,7 @@
 
 
 
-<meta name="date" content="2022-01-30" />
+<meta name="date" content="2022-02-01" />
 
 <title>vignette.knit</title>
 
@@ -361,7 +361,7 @@ pre code {
 
 
 <h1 class="title toc-ignore"><div class="line-block">NIFA: Non-negative Independent Factor Analysis disentangles discrete and continuous sources of variation in scRNA-seq data</div></h1>
-<h4 class="date">January 30, 2022</h4>
+<h4 class="date">February 01, 2022</h4>
 
 </div>
 
@@ -441,7 +441,14 @@ colnames(rnaseq.norm) &lt;- colnames(rnaseq)</code></pre>
     }  #for i
     return(res)
 }  #one_hot_encode</code></pre>
-<p>We run <em>NIFA</em> by calling <code>NIFA()</code> function. Here the number of latent factors is set to be 4 and the number of mixture components associated with each latent factor is also set to be 4.</p>
+<p>We run <em>NIFA</em> by calling <code>NIFA()</code> function. Here the number of latent factors is set to be 4 and the number of mixture components associated with each latent factor is also set to be 4. By default, variables are initialized by a simple matrix decomposition with non-negativity constraint on the loadings (<code>init = &quot;sd&quot;, S.init = NULL, A.init = NULL, L1.sd = NULL, L2.sd = NULL</code>). There are five parameters that are more data-dependent than other parameters.</p>
+<ul>
+<li><code>K</code>: This encodes the number of latent factors. You can set up this parameter by a few runs of experiments. You can also try AIC/BIC criterion on top of SVD decomposition or likelihood/ELBO-based tuning methods.</li>
+<li><code>S_threshold</code>: (default: 6e-5) <code>NIFA()</code> monitor the relative changes of decomposed latent factors. This will control the number of iterations before convergence.</li>
+<li><code>max.iter</code>: (default: 1000) This is a hard threshold to control the number of iterations before stopping the variational updates.</li>
+<li><code>b_noise_prior</code>: The empirical recommendation is to set this prior over the noise parameter as <code>prod(dim(X)*5)</code>. You can change this parameter or the next one (<code>beta_expect_flag</code>) to adapt to your specific scRNA-seq data.</li>
+<li><code>beta_expect_flag</code>: The noise parameter can be set to a fixed value by assigning the desired value to <code>beta_expect_flag</code>. Other related parameters will be ignored once <code>beta_expect_flag</code> is not <code>NULL</code>.</li>
+</ul>
 <pre class="r watch-out"><code>NIFA.res &lt;- NIFA(tscale(rnaseq.norm), K = 4, M = 4, max.iter = 500,
     S_threshold = 6e-05, init = &quot;sd&quot;, A.init = NULL, S.init = NULL,
     verbose = F, ref = one_hot_encode(celltype), beta_expect_flag = NULL,

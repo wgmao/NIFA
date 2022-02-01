@@ -123,7 +123,15 @@ one_hot_encode <- function(x){
 }#one_hot_encode
 ```
 
-We run *NIFA* by calling `NIFA()` function. Here the number of latent factors is set to be 4 and the number of mixture components associated with each latent factor is also set to be 4.
+We run *NIFA* by calling `NIFA()` function. Here the number of latent factors is set to be 4 and the number of mixture components associated with each latent factor is also set to be 4. By default, variables are initialized by a simple matrix decomposition with non-negativity constraint on the loadings (`init = "sd", S.init = NULL, A.init = NULL, L1.sd = NULL, L2.sd = NULL`). There are five parameters that are more data-dependent than other parameters.
+
+* `K`: This encodes the number of latent factors. You can set up this parameter by a few runs of experiments. You can also try AIC/BIC criterion on top of SVD decomposition or likelihood/ELBO-based tuning methods.
+* `S_threshold`: (default: 6e-5) `NIFA()` monitor the relative changes of decomposed latent factors. This will control the number of iterations before convergence.
+* `max.iter`: (default: 1000) This is a hard threshold to control the number of iterations before stopping the variational updates.
+* `b_noise_prior`: The empirical recommendation is to set this prior over the noise parameter as `prod(dim(X)*5)`. You can change this parameter or the next one (`beta_expect_flag`) to adapt to your specific scRNA-seq data. 
+* `beta_expect_flag`: The noise parameter can be set to a fixed value by assigning the desired value to `beta_expect_flag`. Other related parameters will be ignored once `beta_expect_flag` is not `NULL`.
+
+
 ```{r results='hide', message = FALSE, warning = FALSE, cache = TRUE}
 NIFA.res <- NIFA(tscale(rnaseq.norm), K = 4, M = 4, max.iter = 500, S_threshold = 6e-5, init = "sd", A.init = NULL, S.init = NULL, verbose = F, ref = one_hot_encode(celltype), beta_expect_flag = NULL, L1.sd = NULL, L2.sd = NULL, b_noise_prior = prod(dim(rnaseq.norm))*5)
 ```
